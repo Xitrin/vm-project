@@ -13,8 +13,12 @@ sleep 20
 IP=$(virsh net-dhcp-leases default | grep $VM_NAME | awk '{ print $5}')
 CIP=${IP%???}
 ssh -o "StrictHostKeyChecking=accept-new" jenkins@${CIP} \
-	systemctl status nginx
+	sudo apt install -y nginx &
+	systemctl status nginx &
+	sudo ufw app list &
+	sudo ufw status
+sleep 15
 curl ${CIP}:80
-sleep 5
+sleep 10
 virsh destroy $VM_NAME
 virsh undefine $VM_NAME --remove-all-storage --nvram
