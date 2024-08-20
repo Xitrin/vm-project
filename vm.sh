@@ -14,9 +14,9 @@ IP=$(virsh net-dhcp-leases default | grep $VM_NAME | awk '{ print $5}')
 CIP=${IP%???}
 ssh -o "StrictHostKeyChecking=accept-new" jenkins@${CIP} \
 	sudo apt install -y nginx &
-	systemctl status nginx &
 	sudo ufw app list &
-	sudo ufw status
+	sudo ufw status &
+	sudo systemctl status nginx
 sleep 15
 curl ${CIP}:80
 sleep 10
