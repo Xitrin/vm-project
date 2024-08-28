@@ -1,7 +1,16 @@
 node('node1') {
     checkout scm
-    stage('Script') {
-        sh "sudo ./vm.sh golden ntest-${currentBuild.number}"
-	cleanWs()
+    stage('Provision') {
+        sh "sudo ./provision.sh golden ntest-${currentBuild.number}"
+    }
+    stage('Deploy') {
+        sh "sudo ./deploy.sh ntest-${currentBuild.number}"
+    }
+    stage('Test') {
+        sh "sudo ./test.sh ntest-${currentBuild.number}"
+    }
+    stage('Clean') {
+        sh "sudo ./clean.sh ntest-${currentBuild.number}"
+        cleanWs()
     }
 }
