@@ -1,7 +1,7 @@
 node('node1') {
     checkout scm
     stage('Script') {
-        sh 'sudo ./vm.sh golden nodevm'
+        sh 'sudo ./vm.sh golden ${currentBuild.number}'
 	cleanWs()
     }
 }
