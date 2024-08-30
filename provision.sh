@@ -10,3 +10,8 @@ sudo virt-sysprep -d $VM_NAME --hostname $VM_NAME --enable $w \
         --firstboot-command 'dpkg-reconfigure openssh-server'
 virsh start $VM_NAME
 sleep 20
+IP=$(virsh net-dhcp-leases default | grep $VM_NAME | awk '{ print $5}')
+CIP=${IP%???}
+echo "[droplets]
+node1 $VM_NAME=$CIP
+" > /ansible/inventory/hosts
