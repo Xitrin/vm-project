@@ -14,3 +14,4 @@ IP=$(virsh net-dhcp-leases default | grep $VM_NAME | awk '{ print $5}')
 CIP=${IP%???}
 echo > ansible/inventory/hosts "[clones]
 $CIP ansible_user=jenkins"
+echo "Created Inventory"
