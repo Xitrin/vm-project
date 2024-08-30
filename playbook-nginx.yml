@@ -11,5 +11,3 @@
           - nginx-common
           - nginx-full
         state: present
-      when:
-        - install == 'yes'
