@@ -1,6 +1,6 @@
 ---
 - name: Nginx Install
-  hosts: droplets
+  hosts: clones
   become: true
 
   tasks:
