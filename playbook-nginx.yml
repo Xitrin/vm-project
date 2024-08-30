@@ -1,0 +1,15 @@
+---
+- name: Nginx Install
+  hosts: droplets
+  become: true
+
+  tasks:
+    - name: Install NGINX
+      apt:
+        name:
+          - nginx
+          - nginx-common
+          - nginx-full
+        state: present
+      when:
+        - install == 'yes'
