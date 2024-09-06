@@ -10,7 +10,7 @@ node('node1') {
     }
     try {
         stage('Test') {
-            sh 'curl node1:8080'
+            sh 'curl localhost:8080'
         }
     } catch (Exception e) {
         echo "Test stage failed"
