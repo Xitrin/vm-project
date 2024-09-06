@@ -1,28 +1,23 @@
 node('node1') {
     checkout scm
     try {
-        stage('Provision') {
-            sh "sudo ./provision.sh golden ntest-${currentBuild.number}"
+        stage('Create NGINX container') {
+            sh "docker run -it --rm -d -p 8080:80 \
+                --name ntest-${currentBuild.number} nginx"
         }
     } catch (Exception e) {
-        echo "Provision stage failed"
-    }
-    try {
-        stage('Deploy') {
-            sh "sudo ./deploy.sh ntest-${currentBuild.number}"
-        }
-    } catch (Exception e) {
-        echo "Deploy stage failed"
+        echo "Create NGINX stage failed"
     }
     try {
         stage('Test') {
-            sh "sudo ./test.sh ntest-${currentBuild.number}"
+            curl node1:8080
         }
     } catch (Exception e) {
         echo "Test stage failed"
     }
     stage('Clean') {
-        sh "sudo ./clean.sh ntest-${currentBuild.number}"
+        sh "sudo docker stop ntest-${currentBuild.number}"
+        sh 'docker ps'
         cleanWs()
     }
 }
