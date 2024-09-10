@@ -2,8 +2,7 @@ node('node1') {
     checkout scm
     try {
         stage('Create NGINX container') {
-            sh "docker run -it --rm -d -p 8080:80 \
-                --name ntest-${currentBuild.number} nginx"
+            sh "docker-compose up -d"
         }
     } catch (Exception e) {
         echo "Create NGINX stage failed"
@@ -16,7 +15,7 @@ node('node1') {
         echo "Test stage failed"
     }
     stage('Clean') {
-        sh "sudo docker stop ntest-${currentBuild.number}"
+        sh 'docker-compose down'
         sh 'docker ps'
         cleanWs()
     }
