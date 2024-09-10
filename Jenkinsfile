@@ -2,7 +2,7 @@ node('node1') {
     checkout scm
     try {
         stage('Create NGINX container') {
-            sh "docker-compose up -d"
+            sh "docker-compose -f /home/jenkins/vm-project/nginx-container up -d"
         }
     } catch (Exception e) {
         echo "Create NGINX stage failed"
@@ -15,7 +15,7 @@ node('node1') {
         echo "Test stage failed"
     }
     stage('Clean') {
-        sh 'docker-compose down'
+        sh 'docker-compose -f /home/jenkins/vm-project/nginx-container down'
         sh 'docker ps'
         cleanWs()
     }
